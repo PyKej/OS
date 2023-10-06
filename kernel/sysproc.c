@@ -95,12 +95,9 @@ sys_uptime(void)
 uint64
 sys_square(void)
 {
-  uint xticks;
-
-  acquire(&tickslock);
-  xticks = ticks;
-  release(&tickslock);
-  return xticks;
+  int n;
+  argint(0, &n);
+  return (n*n);
 }
 
 
