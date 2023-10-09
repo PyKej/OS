@@ -11,12 +11,6 @@
 
 // compare 2 string
 int compareStr(char file1[MAX_SIZE_OF_FILE], char file2[MAX_SIZE_OF_FILE]){
-
-    if(strlen(file1) != strlen(file2)){
-        return 0;
-    }
-
-
     while(1){
         if(*file1 != *file2){
             return 0;
@@ -59,7 +53,10 @@ int main(int argc, char *argv[]){
             exit(1);
         }
 
-        read(to_parent[0], file2, MAX_SIZE_OF_FILE);
+        if(read(to_parent[0], file2, MAX_SIZE_OF_FILE) < 0){
+            fprintf(2, "Read failed! File: %s\n", argv[2]);
+            exit(1);
+        }
 
         int result = compareStr(file1, file2);
 
