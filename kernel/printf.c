@@ -133,3 +133,16 @@ printfinit(void)
   initlock(&pr.lock, "pr");
   pr.locking = 1;
 }
+
+// backtrace() is a function that prints the return addresses of the stackframes of the current process
+void
+backtrace(void)
+{
+  uint64 fp = r_fp();
+  while (fp != PGROUNDDOWN(fp)) { // PGROUNDDOWN(fp) always indicates the starting position of the page where fp is located
+    uint64 r_addr = *(uint64*)(fp - 8); // the return address lives at a fixed offset (-8) from the frame pointer of a stackframe
+    printf("%p\n", r_addr);
+    fp = *(uint64*)(fp - 16); // the saved frame pointer lives at fixed offset (-16) from the frame pointer
+  }
+}
+
